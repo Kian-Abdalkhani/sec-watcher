@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Example",
+    "email": "test@gmail.com",
+    "tickers": [
+      "AAPL",
+      "TSLA"
+    ]
+  }
+]

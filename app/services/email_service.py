@@ -2,8 +2,11 @@
 
 import smtplib
 import os
+import logging
 from datetime import datetime
 from app.config import EMAIL_ADDRESS,PASSWORD
+
+logger = logging.getLogger(__name__)
 
 class EmailService:
     def __init__(self, smtp_server='smtp.gmail.com', smtp_port=587):
@@ -26,9 +29,9 @@ class EmailService:
             email_text = f"From: {self.email_address}\nTo: {subscriber_email}\nSubject: {subject}\n\n{message}"
             server.sendmail(self.email_address, subscriber_email, email_text)
             server.quit()
-            print(f"{datetime.now()}: Email sent successfully to {subscriber_email} for {subject}")
+            logger.info(f"Email sent successfully to {subscriber_email} for {subject}")
             return True
         except Exception as e:
-            print(f"Error sending email: {str(e)}")
+            logger.error(f"Error sending email: {str(e)}")
             return False
 

@@ -2,9 +2,12 @@
 import json
 import os
 from typing import List, Dict, Any
+import logging
 
 from app.models.subscriber import Subscriber
 from app.storage.ticker_store import TickerStore
+
+logger = logging.getLogger(__name__)
 
 
 class SubStore:
@@ -51,10 +54,11 @@ class SubStore:
             # If new Subscriber
             subscribers.append(new_subscriber.to_dict())
             self.save_subscribers(subscribers)
+            logger.info(f"Subscriber {email} added successfully")
             return True
 
         except ValueError as e:
-            print(f"Validation error: {str(e)}")
+            logger.error(f"Validation error: {str(e)}")
             return False
 
     def remove_subscriber(self, email: str) -> bool:
@@ -64,11 +68,13 @@ class SubStore:
                 if subscriber["email"] == email:
                     subscribers.remove(subscriber)
                     self.save_subscribers(subscribers)
+                    logger.info(f"Subscriber {email} removed successfully")
                     return True
 
             return False
         except ValueError as e:
-            print(f"Validation error: {str(e)}")
+            logger.error(f"Validation error: {str(e)}")
+
             return False
 
     def get_all_tickers(self) -> List[str]:

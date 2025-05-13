@@ -2,10 +2,11 @@
 import os
 import json
 from typing import List, Dict, Any
+import logging
 
 from app.services.sec_service import get_filings
 
-
+logger = logging.getLogger(__name__)
 
 class TickerStore:
     def __init__(self, file_path):
@@ -40,7 +41,7 @@ class TickerStore:
         for tick in ticker_data:
             if tick["ticker"] not in tickers:
                 ticker_data.remove(tick)
-
+        logger.info(f"Tickers {tickers} synced to {self.file_path} successfully.")
         self.save_tickers(ticker_data)
 
     def check_filings(self) -> dict[str,Any]:
@@ -52,7 +53,6 @@ class TickerStore:
             if ticker["last_filing"] == "":
                 ticker["last_filing"] = latest_filing["accessionNumber"]
             elif ticker["last_filing"] != latest_filing["accessionNumber"]:
-                #TODO: use email service to send email to ticker subscriber
                 new_filings[ticker["ticker"]] = latest_filing
                 ticker["last_filing"] = latest_filing["accessionNumber"]
             else:

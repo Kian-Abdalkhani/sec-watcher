@@ -1,0 +1,75 @@
+# Git
+.git
+.gitignore
+.github
+
+# macOS
+.DS_Store
+
+# Project-specific
+.junie/
+
+# Environment variables
+.env
+.env.*
+
+# Docker
+Dockerfile
+compose.yml
+.dockerignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.venv/
+venv/
+
+# Tests
+tests/
+
+# Data (mounted as volume)
+data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Documentation
+README.md
+docs/
+*.md
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*~

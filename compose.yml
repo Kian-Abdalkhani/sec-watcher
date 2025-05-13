@@ -2,3 +2,6 @@ services:
   watcher:
     container_name: sec_watcher
     build: .
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

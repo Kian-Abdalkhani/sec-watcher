@@ -45,7 +45,7 @@ SEC Watcher is an automated system that monitors SEC filings for specified ticke
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    uv pip install -e .
    ```
-   
+
 ### Using Python with pip
 
 1. Clone the repository:
@@ -75,10 +75,16 @@ SEC Watcher is an automated system that monitors SEC filings for specified ticke
 
 2. Build and run the Docker container:
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
    Note: The Docker image uses uv instead of pip for package installation and environment management, providing faster and more reliable dependency resolution.
+
+3. The Docker setup includes:
+   - A Python 3.12 slim-bookworm base image
+   - Automatic installation of uv for package management
+   - Volume mounting of the ./data directory for persistent storage
+   - Automatic restart unless explicitly stopped
 
 ## Configuration
 
@@ -152,14 +158,20 @@ The project includes Docker and Docker Compose configuration for easy deployment
 
 ```bash
 # Build and start the container
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop the container
-docker-compose down
+docker compose down
 ```
+
+The Docker configuration:
+- Uses a Python 3.12 slim-bookworm base image
+- Installs and uses uv for faster package management
+- Mounts the ./data directory to /app/data for persistent storage
+- Automatically restarts the container unless explicitly stopped
 
 ## Project Structure
 
@@ -175,6 +187,9 @@ docker-compose down
 - `main.py`: Application entry point
 - `scheduler.py`: Scheduled task definition
 - `pyproject.toml`: Project metadata and dependencies
+- `Dockerfile`: Docker image configuration
+- `compose.yml`: Docker Compose configuration
+- `.dockerignore`: Files to exclude from Docker builds
 
 ## License
 

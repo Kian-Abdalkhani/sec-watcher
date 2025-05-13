@@ -1,0 +1,4 @@
+services:
+  watcher:
+    container_name: sec_watcher
+    build: .

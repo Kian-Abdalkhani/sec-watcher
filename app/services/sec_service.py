@@ -41,5 +41,3 @@ def check_new_filings(cik: str ) -> bool:
         return False
     else:
         return True
-
-get_filings("AAPL")

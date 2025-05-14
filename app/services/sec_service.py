@@ -19,7 +19,7 @@ def get_cik(ticker: str,lead_zeros: bool = True) -> str:
                 cik = '0' + cik
     return cik
 
-def get_filings(ticker: str) -> pd.DataFrame:
+def get_filings(ticker: str,exclude_insider: bool = True) -> pd.DataFrame:
     cik = get_cik(ticker)
     # filings = r.get(SEC_FILINGS_URL.format(cik),headers=HEADERS).json()
     filings = r.get(SEC_FILINGS_URL.format(cik=cik),headers=HEADERS).json()
@@ -28,6 +28,10 @@ def get_filings(ticker: str) -> pd.DataFrame:
     #convert the two date fields into datetime objects
     filings['filingDate'] = pd.to_datetime(filings['filingDate'])
     filings['reportDate'] = pd.to_datetime(filings['reportDate'])
+
+    if exclude_insider:
+        insider_forms: list = ["3","3/A","4","4/A","5","5/A"]
+        filings = filings[~filings["form"].isin(insider_forms)]
 
     return filings
 
@@ -38,3 +42,4 @@ def check_new_filings(cik: str ) -> bool:
     else:
         return True
 
+get_filings("AAPL")

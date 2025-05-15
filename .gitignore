@@ -62,7 +62,6 @@ coverage.xml
 logs/
 *.log
 .uv/
-uv.lock
 .junie/
 
 # OS specific

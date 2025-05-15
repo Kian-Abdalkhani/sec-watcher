@@ -4,6 +4,8 @@ import smtplib
 import os
 import logging
 from datetime import datetime
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from app.config import EMAIL_ADDRESS,PASSWORD
 
 logger = logging.getLogger(__name__)
@@ -21,13 +23,24 @@ class EmailService:
         server.login(self.email_address, self.password)
         return server
 
-    def send_email(self, subscriber_email, subject, message) -> bool:
+    def send_email(self, subscriber_email, subject, message, is_html=True) -> bool:
         try:
             server = self.connect()
 
             #email format
-            email_text = f"From: {self.email_address}\nTo: {subscriber_email}\nSubject: {subject}\n\n{message}"
-            server.sendmail(self.email_address, subscriber_email, email_text)
+            email_message = MIMEMultipart("alternative")
+            email_message['From'] = self.email_address
+            email_message['To'] = subscriber_email
+            email_message['Subject'] = subject
+
+            text_part = MIMEText(message, "plain")
+
+            if is_html:
+                html_part = MIMEText(message, "html")
+                email_message.attach(text_part)
+                email_message.attach(html_part)
+
+            server.sendmail(self.email_address, subscriber_email, email_message.as_string())
             server.quit()
             logger.info(f"Email sent successfully to {subscriber_email} for {subject}")
             return True
@@ -35,3 +48,7 @@ class EmailService:
             logger.error(f"Error sending email: {str(e)}")
             return False
 
+
+emailer = EmailService()
+
+emailer.send_email(subscriber_email=emailer.email_address,subject="Test Email",message="This is a test email")
